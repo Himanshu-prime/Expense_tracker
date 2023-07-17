@@ -1,0 +1,238 @@
+#:import utils kivy.utils
+#:import Factory kivy.factory.Factory
+WindowManager:
+    FirstWindow:
+    SecondWindow:
+
+<MyPopup@Popup>
+    auto_dismiss: False
+    size_hint: 0.6, 0.4
+    pos_hint: {"x":0.2, "top": 0.9}
+    title: "Notification"
+    BoxLayout:
+        orientation: "vertical"
+        padding:5
+        spacing:5
+        size: root.width, root.height
+        Label:
+            
+            text:"Your entries are saved, checkout view section"
+        Button:
+            size_hint: None, None
+            size: 100, 50
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            text:"close"
+            on_release: root.dismiss()
+<MyPopup1@Popup>
+    auto_dismiss: False
+    size_hint: 0.6, 0.4
+    pos_hint: {"x":0.2, "top": 0.9}
+    title: "Notification"
+    BoxLayout:
+        orientation: "vertical"
+        padding:5
+        spacing:5
+        size: root.width, root.height
+        Label:
+            
+            text:"Your excel file is created"
+        Button:
+            size_hint: None, None
+            size: 100, 50
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            text:"close"
+            on_release: root.dismiss()
+<Label>
+    background_color:(1,1,253/255.0,1)
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+        Rectangle:
+            size: self.size
+            pos:  self.pos
+    color:(0,0,0,1)
+<FirstWindow>:
+    name: "first"
+	
+
+    date:date
+    nme:nme
+	title:title
+	amt:amt
+    #spinner_id:spinner_id
+    FloatLayout:
+        size: root.width, root.height
+        #orientation: "vertical"
+         
+        #padding: 50
+        #spacing: 20
+
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'QR2.jpg'
+         
+       
+        Label:
+            size_hint: None, None
+            size: 70, 30
+            pos_hint:{'x':0.025,'y':0.90}
+            text: "Date"  
+        TextInput:
+            id: date
+            size_hint: None, None
+            size: 90, 30
+            pos_hint:{'x':0.125,'y':0.90}
+            multiline:False     
+           
+        Label:
+            size_hint: None, None
+            size: 70, 50
+            pos_hint:{'x':0.025,'y':0.75}
+            text: "Name"
+        TextInput:
+        	id: nme
+            size_hint: None, None
+            size: 300, 50
+            pos_hint:{'x':0.125,'y':0.75}
+            multiline:False
+
+           
+        Label:
+            size_hint: None, None
+            size: 70, 50
+            pos_hint:{'x':0.025,'y':0.65}
+            text: "Amount"
+        TextInput:
+            id: amt
+            multiline:False
+            size_hint: None, None
+            size: 300, 50
+            pos_hint:{'x':0.125,'y':0.65}
+            input_filter: "float"
+
+            
+        Label:
+            size_hint: None, None
+            size: 70, 45
+            pos_hint:{'x':0.025,'y':0.55}
+            text: "Title"
+        TextInput:
+            size_hint: None, None
+            size: 300, 50
+            pos_hint:{'x':0.125,'y':0.55}
+            id: title
+            multiline:False
+
+    	Button:
+        	text: "submit"
+            size_hint: None, None
+            size: 100, 50
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            #$background_normal: ''
+            #background_color: (1,0,0,0)
+            pos_hint:{'x':0.35,'y':0.1}
+        	font_size: 20
+            on_press: root.press()
+            #utils.get_color_from_hex('')
+        Button:
+            text: "Save"
+            size_hint: None, None
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            size: 100, 50
+            pos_hint:{'x':0.25,'y':0.1}
+            font_size: 20
+            on_press: root.press3()
+            on_release: Factory.MyPopup().open()
+        Button:
+            text: "options"
+            size_hint: None, None
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            size: 100, 50
+            font_size: 20
+            pos_hint:{'x':0.87,'y':0.5}
+            on_release: 
+                app.root.current = "second"
+                root.manager.transition.direction = "left"
+        
+<SecondWindow>:
+    name: "second"
+    filename:filename
+    filename1:filename1
+    FloatLayout:
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'QR2.jpg'
+       
+        size: root.width, root.height
+        Button:
+            text: "Go Back"
+            size_hint: None, None
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            size: 100, 50
+            font_size: 20
+            on_release: 
+                app.root.current = "first"
+                root.manager.transition.direction = "right"
+        Button:
+            text: "view"
+            size_hint: None, None
+            size: 100, 50
+            font_size: 20
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            pos_hint:{'x':0.025,'y':0.75}            
+            on_press: root.view()
+
+        Button:
+            text: "Creat Excel sheet"
+            size_hint: None, None
+            size: 200, 50
+            font_size: 20
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            pos_hint:{'x':0.025,'y':0.60}            
+            on_press: root.press2()
+            on_release: Factory.MyPopup1().open()
+        TextInput:
+            id:filename
+            size_hint: None, None
+            size: 300, 50
+            pos_hint:{'x':0.30,'y':0.60}
+            
+        Button:
+            text: "View Excel file:"
+            size_hint: None, None
+            size: 150, 50
+            font_size: 20
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            pos_hint:{'x':0.025,'y':0.45}            
+            on_press: root.openxl()
+        TextInput:
+            id:filename1
+            size_hint: None, None
+            size: 300, 50
+            pos_hint:{'x':0.30,'y':0.45}
+        
+        Button:
+            text: "Show graph"
+            size_hint: None, None
+            size: 150, 50
+            font_size: 20
+            background_normal:''
+            background_color:(255/256,255/256,255/256,1)
+            pos_hint:{'x':0.025,'y':0.30}            
+            on_press: root.graph()
